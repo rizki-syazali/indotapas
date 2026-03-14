@@ -22,7 +22,7 @@ datasets:
 
 The model was trained using a Masked Language Modeling (MLM) objective with Whole-Word Masking on a massive corpus of Indonesian Wikipedia text-table pairs. This model serves as a strong starting point for various tabular downstream tasks in Indonesian, such as Table Question Answering (TQA), Table Fact Verification, and Table-based Text Generation.
 
-- **Developed by:** Rizki Syazali & Evi Yulianti
+- **Developed by:** Muhammad Rizki Syazali & Evi Yulianti
 - **Model type:** Table Parser (TaPas) for Masked Language Modeling
 - **Language(s) (NLP):** Indonesian (`id`)
 - **Finetuned from model:** Pre-trained from scratch using `google/tapas-base` configuration and an Indonesian-specific vocabulary (IndoBERT).
