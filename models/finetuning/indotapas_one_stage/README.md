@@ -1,199 +1,128 @@
 ---
-library_name: transformers
-tags: []
+language: 
+  - id
+tags:
+  - table-question-answering
+  - tapas
+  - indonesian
+  - indohitab
+  - extractive-qa
+datasets:
+  - IndoHiTab
+metrics:
+  - exact_match
+  - f1
 ---
 
-# Model Card for Model ID
-
-<!-- Provide a quick summary of what the model is/does. -->
-
-
+# Model Card for IndoTaPas (One-Stage Fine-tuning)
 
 ## Model Details
 
 ### Model Description
 
-<!-- Provide a longer summary of what this model is. -->
+**IndoTaPas (One-Stage)** is a TaPas-based model specifically adapted and fine-tuned for the Table Question Answering (TQA) task in the Indonesian language. It is designed to extract precise answers from structured tabular data based on natural language questions. 
 
-This is the model card of a 🤗 transformers model that has been pushed on the Hub. This model card has been automatically generated.
+This specific variant was fine-tuned using a **one-stage strategy**, meaning it was trained directly on the high-quality, manually translated **IndoHiTab** dataset without prior augmentation. 
 
-- **Developed by:** [More Information Needed]
-- **Funded by [optional]:** [More Information Needed]
-- **Shared by [optional]:** [More Information Needed]
-- **Model type:** [More Information Needed]
-- **Language(s) (NLP):** [More Information Needed]
-- **License:** [More Information Needed]
-- **Finetuned from model [optional]:** [More Information Needed]
+- **Developed by:** Muhammad Rizki Syazali & Evi Yulianti
+- **Model type:** Table Parser (TaPas) for Extractive Question Answering
+- **Language(s) (NLP):** Indonesian (`id`)
+- **Finetuned from model:** IndoTaPas MaskedLM (pre-trained from scratch on 1.6M Indonesian WikiTableText pairs)
 
-### Model Sources [optional]
+### Model Sources
 
-<!-- Provide the basic links for the model. -->
-
-- **Repository:** [More Information Needed]
-- **Paper [optional]:** [More Information Needed]
-- **Demo [optional]:** [More Information Needed]
+- **Repository:** [GitHub - IndoTaPas](https://github.com/rizki-syazali/indotapas)
+- **Paper:** "IndoTaPas: A TaPas-Based Model for Indonesian Table Question Answering" (Expert Systems with Applications, 2026)
 
 ## Uses
 
-<!-- Address questions around how the model is intended to be used, including the foreseeable users of the model and those affected by the model. -->
-
 ### Direct Use
 
-<!-- This section is for the model use without fine-tuning or plugging into a larger ecosystem/app. -->
-
-[More Information Needed]
-
-### Downstream Use [optional]
-
-<!-- This section is for the model use when fine-tuned for a task, or when plugged into a larger ecosystem/app -->
-
-[More Information Needed]
+The model is intended to be used for **extractive table question answering** in Indonesian. Given a flattened, 1-dimensional table and a corresponding question, the model will output the coordinates of the cell(s) containing the correct answer. 
 
 ### Out-of-Scope Use
 
-<!-- This section addresses misuse, malicious use, and uses that the model will not work well for. -->
-
-[More Information Needed]
+- The model is **not** generative; it cannot synthesize new text or generate conversational responses. It only extracts existing cell values.
+- Due to architectural constraints applied during the dataset filtering phase, the model is not optimized for questions that strictly require **header selection** as the final answer.
 
 ## Bias, Risks, and Limitations
 
-<!-- This section is meant to convey both technical and sociotechnical limitations. -->
-
-[More Information Needed]
-
-### Recommendations
-
-<!-- This section is meant to convey recommendations with respect to the bias, risk, and technical limitations. -->
-
-Users (both direct and downstream) should be made aware of the risks, biases and limitations of the model. More information needed for further recommendations.
+- **"All-or-Nothing" Decoding:** When the model fails to predict the exact complete set of cell coordinates, its current decoding mechanism defaults to returning an empty array. This results in no partial overlap, meaning the Exact Match (EM) and F1 scores are identical.
+- **Domain Limitation:** While pre-trained on diverse Wikipedia tables, its fine-tuning is heavily localized to the characteristics of the IndoHiTab (StatCan, ToTTo, NSF) data distributions.
 
 ## How to Get Started with the Model
 
-Use the code below to get started with the model.
+You can load the model using the `transformers` library:
 
-[More Information Needed]
+```python
+from transformers import TapasTokenizer, TapasForQuestionAnswering
+import pandas as pd
+
+model_name = "rizki-syazali/tapasid_finetuned_itqa"
+tokenizer = TapasTokenizer.from_pretrained("google/tapas-base") # using base tokenizer with custom vocab
+model = TapasForQuestionAnswering.from_pretrained(model_name)
+
+# Example Table and Question
+data = {'Nama': ['Budi', 'Siti'], 'Umur': ['25', '30']}
+table = pd.DataFrame.from_dict(data)
+queries = ["Berapa umur Siti?"]
+
+inputs = tokenizer(table=table, queries=queries, padding="max_length", return_tensors="pt")
+outputs = model(**inputs)
+
+# Predict answer coordinates
+predicted_answer_coordinates, = tokenizer.convert_logits_to_predictions(inputs, outputs.logits.detach())
+print(predicted_answer_coordinates)
+```
 
 ## Training Details
 
 ### Training Data
 
-<!-- This should link to a Dataset Card, perhaps with a short stub of information on what the training data is all about as well as documentation related to data pre-processing or additional filtering. -->
-
-[More Information Needed]
+The model was fine-tuned on the **IndoHiTab** dataset, which consists of manually translated English-to-Indonesian table-question pairs. Specifically, the "Flattened" version of the tables was used, where multi-level hierarchical headers were concatenated into single-level headers.
+- **Train Set Size:** 2,057 instances.
 
 ### Training Procedure
 
-<!-- This relates heavily to the Technical Specifications. Content here should link to that section when it is relevant to the training procedure. -->
-
-#### Preprocessing [optional]
-
-[More Information Needed]
-
-
 #### Training Hyperparameters
 
-- **Training regime:** [More Information Needed] <!--fp32, fp16 mixed precision, bf16 mixed precision, bf16 non-mixed precision, fp16 non-mixed precision, fp8 mixed precision -->
-
-#### Speeds, Sizes, Times [optional]
-
-<!-- This section provides information about throughput, start/end time, checkpoint size if relevant, etc. -->
-
-[More Information Needed]
+- **Training regime:** fp16 mixed precision
+- **Optimizer:** AdamW
+- **Learning Rate:** 5e-5
+- **Epochs:** 4
+- **Batch Size:** 32
+- **Scheduler:** Linear (with 0 warmup steps)
 
 ## Evaluation
 
-<!-- This section describes the evaluation protocols and provides the results. -->
-
-### Testing Data, Factors & Metrics
+### Testing Data & Metrics
 
 #### Testing Data
-
-<!-- This should link to a Dataset Card if possible. -->
-
-[More Information Needed]
-
-#### Factors
-
-<!-- These are the things the evaluation is disaggregating by, e.g., subpopulations or domains. -->
-
-[More Information Needed]
+The model was evaluated on the unseen test split of the **IndoHiTab** dataset, comprising **502** question-table pairs.
 
 #### Metrics
-
-<!-- These are the evaluation metrics being used, ideally with a description of why. -->
-
-[More Information Needed]
+- **Exact Match (EM):** The primary metric measuring whether the predicted cell coordinates exactly match the ground truth coordinates.
+- **F1 Score:** Due to the decoding mechanism mentioned in the limitations, the F1 score mirrors the EM score exactly for this model.
 
 ### Results
 
-[More Information Needed]
+| Model Variant | Fine-Tuning Strategy | Exact Match (EM) | F1 Score |
+| :--- | :--- | :---: | :---: |
+| **IndoTaPas (One-Stage)** | Manual Data Only (IndoHiTab) | **37.25%** | **37.25%** |
 
 #### Summary
+The one-stage IndoTaPas model achieves a strong baseline of 37.25% EM, significantly outperforming early neural semantic parsers (LatentAlignment at 19.12%) and remaining highly competitive against zero-shot generative LLMs on the Indonesian TQA task.
 
+<!-- ## Citation 
 
-
-## Model Examination [optional]
-
-<!-- Relevant interpretability work for the model goes here -->
-
-[More Information Needed]
-
-## Environmental Impact
-
-<!-- Total emissions (in grams of CO2eq) and additional considerations, such as electricity usage, go here. Edit the suggested text below accordingly -->
-
-Carbon emissions can be estimated using the [Machine Learning Impact calculator](https://mlco2.github.io/impact#compute) presented in [Lacoste et al. (2019)](https://arxiv.org/abs/1910.09700).
-
-- **Hardware Type:** [More Information Needed]
-- **Hours used:** [More Information Needed]
-- **Cloud Provider:** [More Information Needed]
-- **Compute Region:** [More Information Needed]
-- **Carbon Emitted:** [More Information Needed]
-
-## Technical Specifications [optional]
-
-### Model Architecture and Objective
-
-[More Information Needed]
-
-### Compute Infrastructure
-
-[More Information Needed]
-
-#### Hardware
-
-[More Information Needed]
-
-#### Software
-
-[More Information Needed]
-
-## Citation [optional]
-
-<!-- If there is a paper or blog post introducing the model, the APA and Bibtex information for that should go in this section. -->
+If you use this model or the IndoHiTab dataset, please cite our paper:
 
 **BibTeX:**
-
-[More Information Needed]
-
-**APA:**
-
-[More Information Needed]
-
-## Glossary [optional]
-
-<!-- If relevant, include terms and calculations in this section that can help readers understand the model or model card. -->
-
-[More Information Needed]
-
-## More Information [optional]
-
-[More Information Needed]
-
-## Model Card Authors [optional]
-
-[More Information Needed]
-
-## Model Card Contact
-
-[More Information Needed]
+```bibtex
+@article{syazali2026indotapas,
+  title={IndoTaPas: A TaPas-Based Model for Indonesian Table Question Answering},
+  author={Syazali, Rizki and Co-authors},
+  journal={Expert Systems with Applications},
+  year={2026}
+}
+``` -->
