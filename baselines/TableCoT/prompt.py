@@ -12,7 +12,7 @@ import pandas as pd
 import time
 from collections import defaultdict
 
-HF_ACCESS_TOKEN = "" # insert with your Hugging Face access token
+#HF_ACCESS_TOKEN = "" # uncomment this and insert with your Hugging Face access token
 
 # library for modelling
 import transformers
