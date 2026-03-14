@@ -18,12 +18,14 @@ The dataset consists of tables, natural language questions, and the correspondin
 | **IndoHiTab-MT** | 2,057 | - | Machine Translation | Analysis (Performance degradation) |
 | **IndoHiTab-EXT-MT** | 2,914 | - | Machine Translation | Augmentation (Two-stage fine-tuning) |
 
-## Data Formats
+## Dataset Variations & Formats
 
-To simplify reproducibility, we provide the training and development data in two formats: **Flattened** and **Unflattened**.
+To ensure reproducibility and accommodate diverse research needs, we provide the IndoHiTab dataset in three structural variations: **Flattened**, **Unflattened**, and the **Original Annotated Data**.
 
 ### 1. Flattened Format
 In this format, Tables with multi-level (hierarchical) column headers are preprocessed and converted into a flat, single-level header structure. This is achieved by concatenating the top-level header, which generally represents a broader category, with the lower-level headers that provide more specific subcategories. The resulting table includes a dedicated `header` array, and string values are generally lowercased.
+
+
 **Example:**
 ```json
 {
@@ -47,7 +49,7 @@ In this format, Tables with multi-level (hierarchical) column headers are prepro
       ["tingkat pendidikan tertinggi yang ditamatkan", "", "", "", "", ""],
        ["Tingkat pendidikan tertinggi yang ditamatkan -> Di bawah sekolah menengah","65","68", "66", "60", "46"],
       ["Tingkat pendidikan tertinggi yang ditamatkan -> Sekolah menengah", "71","69","64","58","49"],
-      ...,
+      ["..."],
       ["identitas aborigin", "", "", "", "", ""],
       ["identitas aborigin", "74", "72", "68", "62", "54"],
       ["identitas aborigin bukan", "70", "69", "64", "54", "46"]
@@ -102,7 +104,7 @@ In this format, both the headers and the cell contents are combined directly wit
       ["Tingkat pendidikan tertinggi yang ditamatkan", "", "", "", "", ""],
       ["Tingkat pendidikan tertinggi yang ditamatkan -> Di bawah sekolah menengah","65","68", "66", "60", "46"],
       ["Tingkat pendidikan tertinggi yang ditamatkan -> Sekolah menengah", "71","69","64","58","49"],
-      ...,
+      ["..."],
       ["Identitas aborigin", "", "", "", "", ""],
       ["Identitas aborigin -> Aborigin", "74", "72", "68", "62", "54"],
       ["Identitas aborigin -> Bukan aborigin", "70", "69", "64", "54", "46"]
