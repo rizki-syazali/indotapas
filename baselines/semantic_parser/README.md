@@ -1,6 +1,6 @@
-# Baseline Experiment 1: Weakly Supervised Semantic Parsing (Wang et al., 2019)
+# Baseline Experiment 1: Learning Semantic Parsers from Denotations with Latent Structured Alignments and Abstract Programs (Wang et al., 2019)
 
-This repository contains the implementation and reproduction steps for the first baseline experiment used to evaluate the effectiveness of our proposed model, IndoTaPas. This baseline adopts the weakly supervised semantic parsing model introduced by Wang et al. (2019).
+This repository contains the implementation and reproduction steps for the first baseline experiment used to evaluate the effectiveness of our proposed model, IndoTaPas. This baseline adopts the weakly supervised semantic parsing model introduced by [Wang et al. (2019)](https://aclanthology.org/D19-1391/).
 
 ## Overview
 
