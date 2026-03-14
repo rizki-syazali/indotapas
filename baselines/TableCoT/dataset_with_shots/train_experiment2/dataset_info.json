@@ -1,0 +1,137 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "default",
+  "dataset_name": "itqa-flatten-header-auto-translation",
+  "dataset_size": 10822306,
+  "description": "",
+  "download_checksums": {
+    "hf://datasets/rizki-syazali/itqa-flatten-header-auto-translation@626056d01934528ff6eb6b89b5d08e6211e37af7/data/train-00000-of-00001.parquet": {
+      "num_bytes": 2160673,
+      "checksum": null
+    },
+    "hf://datasets/rizki-syazali/itqa-flatten-header-auto-translation@626056d01934528ff6eb6b89b5d08e6211e37af7/data/test-00000-of-00001.parquet": {
+      "num_bytes": 390149,
+      "checksum": null
+    }
+  },
+  "download_size": 2550822,
+  "features": {
+    "id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "question_type": {
+      "feature": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "question": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "question.id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "answer_coordinates": {
+      "feature": {
+        "feature": {
+          "dtype": "int64",
+          "_type": "Value"
+        },
+        "_type": "List"
+      },
+      "_type": "List"
+    },
+    "answer_text": {
+      "feature": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "answer_text.id": {
+      "feature": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "table_source": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "table.id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "table.title": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "table.title.id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "table.header": {
+      "feature": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "table.header.id": {
+      "feature": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "table.data": {
+      "feature": {
+        "feature": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "_type": "List"
+      },
+      "_type": "List"
+    },
+    "table.data.id": {
+      "feature": {
+        "feature": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "_type": "List"
+      },
+      "_type": "List"
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 13373128,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 8760174,
+      "num_examples": 2057,
+      "dataset_name": "itqa-flatten-header-auto-translation"
+    },
+    "test": {
+      "name": "test",
+      "num_bytes": 2062132,
+      "num_examples": 502,
+      "dataset_name": "itqa-flatten-header-auto-translation"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}

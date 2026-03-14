@@ -1,0 +1,107 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "default",
+  "dataset_name": "itqa-flatten-header",
+  "dataset_size": 5647823,
+  "description": "",
+  "download_checksums": {
+    "hf://datasets/rizki-syazali/itqa-flatten-header@c001d943a6606d787912057d231c818f6be12780/data/train-00000-of-00001.parquet": {
+      "num_bytes": 1156605,
+      "checksum": null
+    },
+    "hf://datasets/rizki-syazali/itqa-flatten-header@c001d943a6606d787912057d231c818f6be12780/data/test-00000-of-00001.parquet": {
+      "num_bytes": 210887,
+      "checksum": null
+    }
+  },
+  "download_size": 1367492,
+  "features": {
+    "id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "question_type": {
+      "feature": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "question": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "answer_coordinates": {
+      "feature": {
+        "feature": {
+          "dtype": "int64",
+          "_type": "Value"
+        },
+        "_type": "List"
+      },
+      "_type": "List"
+    },
+    "answer_text": {
+      "feature": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "table_source": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "table": {
+      "data": {
+        "feature": {
+          "feature": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "_type": "List"
+        },
+        "_type": "List"
+      },
+      "header": {
+        "feature": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "_type": "List"
+      },
+      "id": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "title": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 7015315,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 4571691,
+      "num_examples": 2057,
+      "dataset_name": "itqa-flatten-header"
+    },
+    "test": {
+      "name": "test",
+      "num_bytes": 1076132,
+      "num_examples": 502,
+      "dataset_name": "itqa-flatten-header"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}
