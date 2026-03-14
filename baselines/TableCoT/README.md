@@ -29,7 +29,11 @@ The inference script (`prompt.py`) is designed to evaluate Large Language Models
 
 ### Prerequisites
 Before running the script, ensure you have the required libraries installed and your Hugging Face access token configured. 
-*(Note: The script currently uses a hardcoded `HF_ACCESS_TOKEN`. For security, ensure you have access to this token or replace it with your own before running).*
+
+**Important Note on Gated Models & Access Tokens:**
+The script requires an `HF_ACCESS_TOKEN` because certain models evaluated in this baseline (such as `Meta-Llama-3`) are **gated models**. To give authors more control over how their models are used, the Hugging Face Hub requires users to explicitly request access and agree to share their contact information or accept specific terms before downloading the model files. 
+
+* **Action Required:** You must first visit the respective model page on Hugging Face (e.g., Meta-Llama-3) and request access using your own account. Once granted, replace the hardcoded `HF_ACCESS_TOKEN` in `prompt.py` with your own valid Hugging Face token before running the script.
 
 ### Command-Line Arguments
 
